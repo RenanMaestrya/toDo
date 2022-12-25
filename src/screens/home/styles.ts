@@ -7,7 +7,7 @@ export const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     logo:{
-        
+        justifyContent: 'center',
     },
     form:{
 
