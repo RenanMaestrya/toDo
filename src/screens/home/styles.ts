@@ -1,23 +1,45 @@
 import { StyleSheet } from "react-native"
+import { setStatusBarHidden } from 'expo-status-bar';
 
 export const styles = StyleSheet.create({
+    containerSuperior:{
+        backgroundColor: '#0D0D0D',
+        width: '100%',
+        height: '25%',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
     container: {
         flex: 1,
-        backgroundColor: '#fff',
-        justifyContent: 'center',
+        backgroundColor: '#1A1A1A',
+        alignItems: 'center',
+        padding: 24
     },
     logo:{
-        justifyContent: 'center',
+        marginTop: 48,
+        marginBottom: 24
     },
     form:{
-
+        flexDirection: 'row',
+        position: 'absolute',
+        top: -28
     },
     input:{
-
+        flex: 1,
+        height: 56,
+        backgroundColor: '#262626',
+        borderRadius: 5,
+        color: '#FDFCFE',
+        padding: 16,
+        fontSize: 16,
+        marginRight: 6,
     },
     button:{
+        width: 56,
+        height: 56,
+        borderRadius: 5,
         backgroundColor: '#1E6F9F',
-        borderRadius: 6,
-        
+        alignItems: 'center',
+        justifyContent: 'center',
     }
 })
