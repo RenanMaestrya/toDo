@@ -16,7 +16,7 @@ export const styles = StyleSheet.create({
         padding: 24
     },
     logo:{
-        marginTop: 48,
+        marginTop: 36,
         marginBottom: 24
     },
     form:{

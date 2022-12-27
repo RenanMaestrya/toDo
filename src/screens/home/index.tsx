@@ -1,22 +1,41 @@
 import { useState } from 'react'
 import { Image, View, TextInput, TouchableOpacity } from 'react-native';
-import { Task } from '../../components/Task';
 import { styles } from './styles';
+import { Task } from '../../components/TaskList';
 
 export default function Home() {
-  const [task, setTask] = useState<string[]>([])
+  const [tasks, setTasks] = useState<Task[]>([]);
   const [contentTask, setContentTask] = useState('')
 
-  function handleTaskAdd(){
-
-    setTask(prevState => [...prevState, contentTask])
-    setContentTask('')
+  function handleAddTask(newTaskTitle: string) {
+    setTasks((previousState) => [
+      ...previousState,
+      {
+        id: new Date().getTime(),
+        title: newTaskTitle,
+        done: false,
+      },
+    ]);
   }
 
-  function handleTaskRemove(){
-
+  function handleToggleTaskDone(id: number) {
+    const newTasks = tasks.map((task) => {
+      if (task.id === id) {
+        task = {
+          ...task,
+          done: !task.done,
+        };
+      }
+      return task;
+    });
+    setTasks(newTasks);
   }
 
+  function handleRemoveTask(id: number) {
+    const newTasks = tasks.filter((task) => task.id !== id);
+
+    setTasks(newTasks);
+  }
 
   return (
     <>
@@ -34,7 +53,7 @@ export default function Home() {
             value={contentTask}
           />
 
-          <TouchableOpacity onPress={handleTaskAdd} style={styles.button}>
+          <TouchableOpacity onPress={handleAddTask} style={styles.button}>
               <Image source={require('../../assets/button/plus.png')} />
           </TouchableOpacity>
         </View>
