@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Image, View, TextInput, TouchableOpacity, FlatList } from 'react-native';
+import { Image, View, TextInput, TouchableOpacity } from 'react-native';
 import { Task } from '../../components/Task';
 import { styles } from './styles';
 
