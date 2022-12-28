@@ -1,34 +1,29 @@
 import { useState } from 'react'
-import { Image, View, TextInput, TouchableOpacity } from 'react-native';
+import { Image, View, TextInput, Text, TouchableOpacity, FlatList } from 'react-native';
 import { styles } from './styles';
-import { Task } from '../../components/TaskList';
+import { Task } from '../../components/Task';
+import { ListEmpty } from '../../components/ListEmpty';
+
+export interface Task {
+  id: number;
+  content: string;
+  done: boolean;
+}
 
 export default function Home() {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [contentTask, setContentTask] = useState('')
+  const taskLen = tasks.length
 
-  function handleAddTask(newTaskTitle: string) {
+    function handleAddTask(newTask: string) {
     setTasks((previousState) => [
       ...previousState,
       {
         id: new Date().getTime(),
-        title: newTaskTitle,
+        content: newTask,
         done: false,
       },
     ]);
-  }
-
-  function handleToggleTaskDone(id: number) {
-    const newTasks = tasks.map((task) => {
-      if (task.id === id) {
-        task = {
-          ...task,
-          done: !task.done,
-        };
-      }
-      return task;
-    });
-    setTasks(newTasks);
   }
 
   function handleRemoveTask(id: number) {
@@ -37,8 +32,14 @@ export default function Home() {
     setTasks(newTasks);
   }
 
+  function handleDoneTask(){
+
+  }
+
   return (
     <>
+      {/* <--- View text input n header ---> */}
+
       <View style={styles.containerSuperior}>
         <Image style={styles.logo} source={require('../../assets/Logo.png')}/>
       </View>
@@ -53,10 +54,34 @@ export default function Home() {
             value={contentTask}
           />
 
-          <TouchableOpacity onPress={handleAddTask} style={styles.button}>
+          <TouchableOpacity onPress={() => handleAddTask} style={styles.button}>
               <Image source={require('../../assets/button/plus.png')} />
           </TouchableOpacity>
         </View>
+
+        {/* <--- View tarefas criadas e concluidas ---> */}
+
+        <View>
+          <Text>Criadas {taskLen}</Text>
+          <Text>Concluídas {}</Text>
+        </View>
+
+
+        {/* <--- Lista de itens ---> */}
+
+        <FlatList
+          data={tasks}
+          keyExtractor={item => String(item.id)}
+          renderItem={({ item }) => (
+            <Task 
+              key={item.id}
+              content={item.content} 
+              onRemove={() => handleRemoveTask}/>
+
+          )}
+          showsVerticalScrollIndicator={false}
+          ListEmptyComponent={ListEmpty}
+        />
         
       </View>
     </>
