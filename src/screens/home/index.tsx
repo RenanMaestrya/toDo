@@ -61,7 +61,7 @@ export default function Home() {
 
         {/* <--- View tarefas criadas e concluidas ---> */}
 
-        <View>
+        <View style={styles.containerTask}>
           <Text>Criadas {taskLen}</Text>
           <Text>Concluídas {}</Text>
         </View>
