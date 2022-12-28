@@ -3,6 +3,7 @@ import { Image, View, TextInput, Text, TouchableOpacity, FlatList } from 'react-
 import { styles } from './styles';
 import { Task } from '../../components/Task';
 import { ListEmpty } from '../../components/ListEmpty';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 export interface Task {
   id: number;
@@ -62,8 +63,8 @@ export default function Home() {
         {/* <--- View tarefas criadas e concluidas ---> */}
 
         <View style={styles.containerTask}>
-          <Text>Criadas {taskLen}</Text>
-          <Text>Concluídas {}</Text>
+          <Text style={styles.textTaskCriadas}>Criadas <Text style={{color: '#fff'}}>{taskLen}</Text></Text>
+          <Text style={styles.textTaskConcluidas}>Concluídas <Text style={{color: '#fff'}}>{taskLen}</Text></Text>
         </View>
 
 

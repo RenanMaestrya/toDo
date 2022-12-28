@@ -45,9 +45,13 @@ export const styles = StyleSheet.create({
     containerTask:{
         flexDirection: 'row',
         justifyContent: 'space-between',
-        padding: 32
+        paddingTop: 32,
+        paddingBottom: 32
     },
-    textTask:{
-
+    textTaskCriadas:{
+        color: '#4EA8DE',
+    },  
+    textTaskConcluidas:{
+        color: '#8284FA',
     }
 })
