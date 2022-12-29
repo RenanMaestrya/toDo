@@ -1,7 +1,10 @@
 import { StyleSheet } from "react-native"
-import { setStatusBarHidden } from 'expo-status-bar';
 
 export const styles = StyleSheet.create({
+    container:{
+        width:'100%',
+        height:'100%'
+    },
     containerSuperior:{
         backgroundColor: '#0D0D0D',
         width: '100%',
@@ -9,11 +12,12 @@ export const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center'
     },
-    container: {
+    containerList: {
         flex: 1,
         backgroundColor: '#1A1A1A',
-        alignItems: 'center',
-        padding: 24
+        padding: 24,
+        height:'75%',
+        bottom: 0
     },
     logo:{
         marginTop: 36,
@@ -21,8 +25,7 @@ export const styles = StyleSheet.create({
     },
     form:{
         flexDirection: 'row',
-        position: 'absolute',
-        top: -28
+        marginTop: -50,
     },
     input:{
         flex: 1,
@@ -46,12 +49,23 @@ export const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         paddingTop: 32,
-        paddingBottom: 32
+        paddingBottom: 16,
+        
     },
     textTaskCriadas:{
         color: '#4EA8DE',
-    },  
+    },
     textTaskConcluidas:{
         color: '#8284FA',
+    },
+    viewCount:{
+        flexDirection: 'row'
+    },
+    counterTask:{
+        color: '#fff', 
+        backgroundColor: '#333333', 
+        paddingVertical: 2,
+        paddingHorizontal: 8,
+        borderRadius: 10
     }
 })

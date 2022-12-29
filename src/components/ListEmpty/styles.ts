@@ -6,6 +6,7 @@ export const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     image:{
+        marginTop: 48,
         marginBottom: 16
     },
     text:{

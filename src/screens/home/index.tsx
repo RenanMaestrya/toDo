@@ -1,9 +1,16 @@
-import { useState } from 'react'
-import { Image, View, TextInput, Text, TouchableOpacity, FlatList } from 'react-native';
-import { styles } from './styles';
-import { Task } from '../../components/Task';
-import { ListEmpty } from '../../components/ListEmpty';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
+import { useState } from "react";
+import {
+  Image,
+  View,
+  TextInput,
+  Text,
+  TouchableOpacity,
+  FlatList,
+  Alert,
+} from "react-native";
+import { styles } from "./styles";
+import { Task } from "../../components/Task";
+import { ListEmpty } from "../../components/ListEmpty";
 
 export interface Task {
   id: number;
@@ -13,41 +20,66 @@ export interface Task {
 
 export default function Home() {
   const [tasks, setTasks] = useState<Task[]>([]);
-  const [contentTask, setContentTask] = useState('')
-  const taskLen = tasks.length
+  const [contentTask, setContentTask] = useState("");
+  const [listDone, setListDone] = useState<Task[]>([]);
+  const taskLen = tasks.length;
 
-    function handleAddTask(newTask: string) {
-    setTasks((previousState) => [
-      ...previousState,
+  function handleAddTask() {
+    if(tasks.find((res:Task)=> res.content === contentTask))return
+    if (contentTask != "") {
+      setTasks((previousState) => [
+        ...previousState,
+        {
+          id: new Date().getTime(),
+          content: contentTask,
+          done: false,
+        },
+      ]);
+    }
+  }
+
+  function handleRemoveTask(id: number) {
+    Alert.alert("Remover", `Remover tarefa?`, [
       {
-        id: new Date().getTime(),
-        content: newTask,
-        done: false,
+        text: "Sim",
+        onPress: () => setTasks(tasks.filter((tasks) => tasks.id !== id)),
+      },
+      {
+        text: "Não",
+        style: "cancel",
       },
     ]);
   }
 
-  function handleRemoveTask(id: number) {
-    const newTasks = tasks.filter((task) => task.id !== id);
-
+  function handleDoneTask(id: number) {
+    const newTasks = tasks.map((task) => {
+      if (task.id === id) {
+        task = {
+          ...task,
+          done: !task.done,
+        };
+      }
+      return task;
+    });
     setTasks(newTasks);
-  }
 
-  function handleDoneTask(){
+    const res = tasks.filter((res: Task) => {
+      return res.done === false;
+    });
 
+    setListDone(res);
   }
 
   return (
-    <>
+    <View style={styles.container}>
       {/* <--- View text input n header ---> */}
 
       <View style={styles.containerSuperior}>
-        <Image style={styles.logo} source={require('../../assets/Logo.png')}/>
+        <Image style={styles.logo} source={require("../../assets/Logo.png")} />
       </View>
-      <View style={styles.container}>
-
+      <View style={styles.containerList}>
         <View style={styles.form}>
-          <TextInput 
+          <TextInput
             style={styles.input}
             placeholder="Adicione uma nova tarefa"
             placeholderTextColor="#6B6B6B"
@@ -55,36 +87,43 @@ export default function Home() {
             value={contentTask}
           />
 
-          <TouchableOpacity onPress={() => handleAddTask} style={styles.button}>
-              <Image source={require('../../assets/button/plus.png')} />
+          <TouchableOpacity onPress={handleAddTask} style={styles.button}>
+            <Image source={require("../../assets/button/plus.png")} />
           </TouchableOpacity>
         </View>
 
         {/* <--- View tarefas criadas e concluidas ---> */}
 
         <View style={styles.containerTask}>
-          <Text style={styles.textTaskCriadas}>Criadas <Text style={{color: '#fff'}}>{taskLen}</Text></Text>
-          <Text style={styles.textTaskConcluidas}>Concluídas <Text style={{color: '#fff'}}>{taskLen}</Text></Text>
+          <View style={styles.viewCount}>
+            <Text style={styles.textTaskCriadas}>Criadas </Text>
+            <Text style={styles.counterTask}>{taskLen}</Text>
+          </View>
+          <View style={styles.viewCount}>
+            <Text style={styles.textTaskConcluidas}>Concluídas </Text>
+            <Text style={styles.counterTask}>{listDone.length}</Text>
+          </View>
         </View>
-
+        <View style={{ height: 1, backgroundColor: "#262626" }}></View>
 
         {/* <--- Lista de itens ---> */}
 
         <FlatList
           data={tasks}
-          keyExtractor={item => String(item.id)}
+          keyExtractor={(item) => String(item.id)}
           renderItem={({ item }) => (
-            <Task 
+            <Task
               key={item.id}
-              content={item.content} 
-              onRemove={() => handleRemoveTask}/>
-
+              content={item.content}
+              done={item.done}
+              onCheck={() => handleDoneTask(item.id)}
+              onRemove={() => handleRemoveTask(item.id)}
+            />
           )}
           showsVerticalScrollIndicator={false}
           ListEmptyComponent={ListEmpty}
         />
-        
       </View>
-    </>
+    </View>
   );
 }
