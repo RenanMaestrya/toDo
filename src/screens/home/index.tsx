@@ -42,7 +42,15 @@ export default function Home() {
     Alert.alert("Remover", `Remover tarefa?`, [
       {
         text: "Sim",
-        onPress: () => setTasks(tasks.filter((tasks) => tasks.id !== id)),
+        onPress: () => setTasks((tasks) => {
+          const newTasks = tasks.filter((tasks) => tasks.id !== id)
+          const res = newTasks.filter((res: Task) => {
+            return res.done;
+          });
+      
+          setListDone(res);
+          return newTasks
+        }),
       },
       {
         text: "Não",
@@ -63,12 +71,14 @@ export default function Home() {
     });
     setTasks(newTasks);
 
-    const res = tasks.filter((res: Task) => {
-      return res.done === false;
+    const res = newTasks.filter((res: Task) => {
+      return res.done;
     });
 
     setListDone(res);
   }
+
+  
 
   return (
     <View style={styles.container}>
